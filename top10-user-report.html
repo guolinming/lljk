@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ÔÚÏßÓÃ»§Êı±¨±í</title>
-    <meta http-equiv="content-type" content="text/html;charset=gbk"/>
+    <title>åœ¨çº¿ç”¨æˆ·æ•°æŠ¥è¡¨</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
     <meta name="author" content="www.frebsite.nl"/>
     <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes"/>
     <link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -21,20 +21,20 @@
     <div id="header">
         <a href="#menu"></a>
 				<span id="Logo" class="svg">
-                     Á÷Á¿¼à¿Ø
+                     æµé‡ç›‘æ§
 				</span>
         <a class="backBtn" href="javascript:history.back();"></a>
     </div>
-    <div class="subHeader"><i class="i-blog i-small"></i>ÔÚÏßÓÃ»§Êı±¨±í</div>
+    <div class="subHeader"><i class="i-blog i-small"></i>åœ¨çº¿ç”¨æˆ·æ•°æŠ¥è¡¨</div>
     <!-- Content -->
     <div id="content">
-        <!-- ÎªECharts×¼±¸Ò»¸ö¾ß±¸´óĞ¡£¨¿í¸ß£©µÄDom -->
+        <!-- ä¸ºEChartså‡†å¤‡ä¸€ä¸ªå…·å¤‡å¤§å°ï¼ˆå®½é«˜ï¼‰çš„Dom -->
         <select id="classType" style="width: 30%">
 
         </select>
 
         <div id="main" style="height:700px;"></div>
-        <!-- EChartsµ¥ÎÄ¼şÒıÈë -->
+        <!-- EChartså•æ–‡ä»¶å¼•å…¥ -->
         <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
         <script src="http://echarts.baidu.com/build/dist/chart/line.js"></script>
         <script src="./plugin/data/data.js"></script>
@@ -51,14 +51,14 @@
             })
             $('#main').css('height', $(window).height() * 0.7);
 
-            //µ÷ÓÃ·½·¨
+            //è°ƒç”¨æ–¹æ³•
             var classtypeHtml = ""
             $.each(dataObj.data, function (idx, item) {
                 classtypeHtml += "<option value='" + idx + "' >" + item[0] + "</option>"
             });
             $('#classType').html(classtypeHtml);
 
-            // Â·¾¶ÅäÖÃ
+            // è·¯å¾„é…ç½®
             require.config({
                 paths: {
                     echarts: 'http://echarts.baidu.com/build/dist'
@@ -93,18 +93,18 @@
                         series.push(serie);
                     }
                 });
-                // Ê¹ÓÃ
+                // ä½¿ç”¨
                 require(
                         [
                             'echarts',
-                            'echarts/chart/line' // Ê¹ÓÃÖù×´Í¼¾Í¼ÓÔØbarÄ£¿é£¬°´Ğè¼ÓÔØ
+                            'echarts/chart/line' // ä½¿ç”¨æŸ±çŠ¶å›¾å°±åŠ è½½baræ¨¡å—ï¼ŒæŒ‰éœ€åŠ è½½
                         ],
                         function (ec) {
-                            // »ùÓÚ×¼±¸ºÃµÄdom£¬³õÊ¼»¯echartsÍ¼±í
+                            // åŸºäºå‡†å¤‡å¥½çš„domï¼Œåˆå§‹åŒ–echartså›¾è¡¨
                             myChart = ec.init(document.getElementById('main'));
                             var option = {
                                 title: {
-                                    text: 'TOP10Ğ­Òé',
+                                    text: 'TOP10åè®®',
                                     subtext: '',
                                     x: 'center',
                                     textStyle: {fontSize: 20, fontStyle: 'italic'}
@@ -127,7 +127,7 @@
                                 yAxis: [
                                     {
                                         axisLabel: {rotate: 70},
-                                        name: 'Á÷Á¿',
+                                        name: 'æµé‡',
                                         nameTextStyle: {fontSize: 12},
                                         type: 'value',
                                         max: max
@@ -136,7 +136,7 @@
                                 series: series
                             };
 
-                            // Îªecharts¶ÔÏó¼ÓÔØÊı¾İ
+                            // ä¸ºechartså¯¹è±¡åŠ è½½æ•°æ®
                             myChart.setOption(option);
                         }
                 );
@@ -147,41 +147,41 @@
     <nav id="menu">
         <ul>
             <li style="line-height: 30px;text-align: center">
-                »¶Ó­£¬ÕÅÈı
+                æ¬¢è¿ï¼Œå¼ ä¸‰
             </li>
             <li>
                 <a href="index.html">
-                    <i class="i-home i-small"></i>ÖÕ¶ËĞÅÏ¢
+                    <i class="i-home i-small"></i>ç»ˆç«¯ä¿¡æ¯
                 </a>
             </li>
             <li>
                 <a>
-                    <i class="i-about i-small"></i>Á÷Á¿¼à¿Ø
+                    <i class="i-about i-small"></i>æµé‡ç›‘æ§
                 </a>
                 <ul>
-                    <li><a href="online-user-report.html">ÔÚÏßÓÃ»§Êı±¨±í</a></li>
-                    <li><a href="in-out-report.html">ÍÌÍÂÁ¿±¨±í</a></li>
-                    <li class="Selected"><a href="top10-user-report.html">Top10ÓÃ»§±¨±í</a></li>
-                    <li><a href="top10-app-report.html">Top10Ó¦ÓÃ±¨±í</a></li>
+                    <li><a href="online-user-report.html">åœ¨çº¿ç”¨æˆ·æ•°æŠ¥è¡¨</a></li>
+                    <li><a href="in-out-report.html">ååé‡æŠ¥è¡¨</a></li>
+                    <li class="Selected"><a href="top10-user-report.html">Top10ç”¨æˆ·æŠ¥è¡¨</a></li>
+                    <li><a href="top10-app-report.html">Top10åº”ç”¨æŠ¥è¡¨</a></li>
                 </ul>
             </li>
             <li>
                 <a href="action-analysis.html">
-                    <i class="i-blog i-small"></i>ĞĞÎª·ÖÎö
+                    <i class="i-blog i-small"></i>è¡Œä¸ºåˆ†æ
                 </a>
             </li>
             <li>
                 <a href="#">
-                    <i class="i-gallery i-small"></i>ÆóÒµÍ³¼Æ
+                    <i class="i-gallery i-small"></i>ä¼ä¸šç»Ÿè®¡
                 </a>
             </li>
             <li>
                 <a>
-                    <i class="i-shortcodes i-small"></i>ÏµÍ³·ÖÎö
+                    <i class="i-shortcodes i-small"></i>ç³»ç»Ÿåˆ†æ
                 </a>
                 <ul>
-                    <li><a href="system-gprs-analysis.html">ÏµÍ³Á÷Á¿·Ö²¼</a></li>
-                    <li><a href="distribution-system.html">ÏµÍ³·Ö²¼</a></li>
+                    <li><a href="system-gprs-analysis.html">ç³»ç»Ÿæµé‡åˆ†å¸ƒ</a></li>
+                    <li><a href="distribution-system.html">ç³»ç»Ÿåˆ†å¸ƒ</a></li>
                 </ul>
             </li>
         </ul>
