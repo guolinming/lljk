@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>在线用户数报表</title>
+    <meta http-equiv="content-type" content="text/html;charset=gbk"/>
+    <meta name="author" content="www.frebsite.nl"/>
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes"/>
+    <link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="css/flexslider.css"/>
+    <link type="text/css" rel="stylesheet" href="css/jquery.mmenu.all.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mmenu.min.all.js"></script>
+    <script type="text/javascript" src="js/jquery.flexslider.js"></script>
+    <script type="text/javascript" src="js/jquery.easy-pie-chart.js"></script>
+    <script type="text/javascript" src="js/o-script.js"></script>
+</head>
+<body class="o-page">
+<div id="page">
+    <!-- Header -->
+    <div id="header">
+        <a href="#menu"></a>
+				<span id="Logo" class="svg">
+                     流量监控
+				</span>
+        <a class="backBtn" href="javascript:history.back();"></a>
+    </div>
+    <div class="subHeader"><i class="i-blog i-small"></i>在线用户数报表</div>
+    <!-- Content -->
+    <div id="content">
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <select id="classType" style="width: 30%">
+
+        </select>
+
+        <div id="main" style="height:700px;"></div>
+        <!-- ECharts单文件引入 -->
+        <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+        <script src="http://echarts.baidu.com/build/dist/chart/line.js"></script>
+        <script src="./plugin/data/data.js"></script>
+        <script src="./plugin/data/data2.js"></script>
+        <script src="./plugin/util/dateformat.js"></script>
+        <script type="text/javascript">
+            $('#classType').change(function(){
+                var a = $('#classType').val();
+                load(a);
+                myChart.refresh();
+            });
+            $(document).ready(function () {
+                load(0);
+            })
+            $('#main').css('height', $(window).height() * 0.7);
+
+            //调用方法
+            var classtypeHtml = ""
+            $.each(dataObj.data, function (idx, item) {
+                classtypeHtml += "<option value='" + idx + "' >" + item[0] + "</option>"
+            });
+            $('#classType').html(classtypeHtml);
+
+            // 路径配置
+            require.config({
+                paths: {
+                    echarts: 'http://echarts.baidu.com/build/dist'
+                }
+            });
+            var myChart;
+            function load(index) {
+                var max = dataObj.max/(1024*1024*1024);
+                var items_name = new Array();
+                var x_value = new Array();
+                var series = new Array();
+                $.each(dataObj.data, function (idx, item) {
+                    if (index == idx) {
+                        items_name.push(item[0]);
+                        var serie;
+                        var y_value = new Array();
+                        $.each(item[1], function (idx2, item2) {
+                            if (idx == index) {
+                                var time = new Date(item2[0]);
+                                var dt = time.format("hh:mm");
+                                x_value.push(dt);
+                            }
+                            var yv = item2[1]/(1024*1024*1024);
+                            y_value.push(yv);
+                        });
+                        serie = {
+                            name: item[0],
+                            type: 'line',
+                            smooth: true,
+                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                            data: y_value};
+                        series.push(serie);
+                    }
+                });
+                // 使用
+                require(
+                        [
+                            'echarts',
+                            'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
+                        ],
+                        function (ec) {
+                            // 基于准备好的dom，初始化echarts图表
+                            myChart = ec.init(document.getElementById('main'));
+                            var option = {
+                                title: {
+                                    text: 'TOP10协议',
+                                    subtext: '',
+                                    x: 'center',
+                                    textStyle: {fontSize: 20, fontStyle: 'italic'}
+                                },
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                grid:{
+                                    x:20,
+                                    x2:5
+                                },
+                                xAxis: [
+                                    {
+                                        type: 'category',
+                                        boundaryGap: false,
+                                        axisLine: {onZero: false},
+                                        data: x_value
+                                    }
+                                ],
+                                yAxis: [
+                                    {
+                                        axisLabel: {rotate: 70},
+                                        name: '流量',
+                                        nameTextStyle: {fontSize: 12},
+                                        type: 'value',
+                                        max: max
+                                    }
+                                ],
+                                series: series
+                            };
+
+                            // 为echarts对象加载数据
+                            myChart.setOption(option);
+                        }
+                );
+            }
+        </script>
+    </div>
+    <!-- Menu navigation -->
+    <nav id="menu">
+        <ul>
+            <li style="line-height: 30px;text-align: center">
+                欢迎，张三
+            </li>
+            <li>
+                <a href="index.html">
+                    <i class="i-home i-small"></i>终端信息
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="i-about i-small"></i>流量监控
+                </a>
+                <ul>
+                    <li><a href="online-user-report.html">在线用户数报表</a></li>
+                    <li><a href="in-out-report.html">吞吐量报表</a></li>
+                    <li class="Selected"><a href="top10-user-report.html">Top10用户报表</a></li>
+                    <li><a href="top10-app-report.html">Top10应用报表</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="action-analysis.html">
+                    <i class="i-blog i-small"></i>行为分析
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="i-gallery i-small"></i>企业统计
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="i-shortcodes i-small"></i>系统分析
+                </a>
+                <ul>
+                    <li><a href="system-gprs-analysis.html">系统流量分布</a></li>
+                    <li><a href="distribution-system.html">系统分布</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

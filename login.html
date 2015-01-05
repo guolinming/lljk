@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>登录</title>
+    <meta http-equiv="content-type" content="text/html;charset=gbk"/>
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes"/>
+    <link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <style type="text/css">
+        .content {
+            position: absolute;
+            top:20%;
+            border-radius: 10px;
+            width: 96%;
+            background-color:rgba(0, 0, 0, 0.2);
+        }
+
+        .top-logo {
+            /*height: 54px;*/
+            /*background: url(./img/login_logo.png) no-repeat center center;*/
+            /*background-size: auto 90%;*/
+            /*-webkit-background-size: auto 90%;*/
+            /*margin-left: 24px;*/
+            /*margin-top: 3px;*/
+            font-size: 24px;
+            color: #fff;
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .loginForm .form-item-con {
+            /*border: 1px solid #d4d4d4;*/
+        }
+
+        .loginForm .form-item {
+            position: relative;
+            width: 100%;
+            padding: 10px 1rem 0 40px;
+            height: 40px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            /*border-bottom: 1px solid #d4d4d4;*/
+        }
+
+        .loginFormIpt {
+            color: #fffFFF;
+            width: 100%;
+            background: 0 0;
+            border: 0;
+            text-align: center;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        .loginForm .form-item.from-item-vcode {
+            /*border-top: 1px solid #d4d4d4;*/
+            border-bottom: none;
+        }
+
+        .from-item-vcode .loginFormIpt {
+            width: 60%;
+        }
+
+        .from-item-vcode img {
+            /*height: 17px;*/
+        }
+        .loginForm {
+            position: relative;
+            width: 100%;
+            padding: 10%;
+            /*height: 40px;*/
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 5 5;
+        }
+
+        .loginForm .form-item.last-child {
+            border: none;
+        }
+
+        .loginForm .form-item-con .form-item .icon {
+            position: absolute;
+            left: 6px;
+            top: 10px;
+            display: inline-block;
+            width: 18px;
+            height: 22px;
+            border-right: 1px solid #ffffff;
+            background: url(./img/login-icon.png) no-repeat left top;
+            -webkit-background-size: 70% auto;
+            background-size: 70% auto;
+            padding-right: 8px;
+        }
+
+        .loginForm .form-item-con .item-password .icon {
+            background-position: 2px -76px;
+            -webkit-background-size: 68% auto;
+            background-size: 68% auto;
+        }
+        .loginForm .form-item-con .from-item-vcode .icon {
+            background-position: 2px -38px;
+            -webkit-background-size: 68% auto;
+            background-size: 68% auto;
+        }
+
+
+        .content .loginForm .button {
+            margin-top: 10px;
+        }
+        .content .loginForm input.btn {
+            width: 100%;
+            height: 40px;
+            cursor: pointer;
+            background-color: #ff884c;
+            border-radius: 3px;
+            color: #fff;
+            font-size: 16px;
+            -webkit-appearance: none;
+            border: 0;
+        }
+    </style>
+    <!--流量安全管理服务平台-->
+</head>
+
+<body style="background-image: url('./img/logo_bg.jpg')">
+<img src="img/login_logo.png" width ="30%"/>
+
+<div class="content">
+    <div class="top-logo">
+        流量安全管理服务平台
+    </div>
+    <form action="index.html"  class="loginForm">
+        <div class="form-item-con">
+            <div class="form-item item-username">
+                <span class="icon"></span>
+                <input type="text" class="loginFormIpt" id="loginTelNumber" placeholder="请输入您的用户名" name="username">
+            </div>
+            <div class="form-item last-child item-password">
+                <span class="icon"></span>
+                <input type="password" class="loginFormIpt" id="loginPassword" placeholder="请输入您的密码"
+                       name="password">
+            </div>
+            <div class="form-item from-item-vcode">
+                <span class="icon"></span>
+                <input type="tel" class="loginFormIpt" id="vcode" placeholder="请输入验证码" name="captcha">
+                <img src="./img/a.png" alt="">
+            </div>
+        </div>
+
+        <div class="button">
+            <input class="login-btn btn" type="submit" value="登&nbsp;&nbsp;&nbsp;&nbsp;录">
+        </div>
+    </form>
+</div>
+</body>
+</html> 

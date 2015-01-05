@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>系统分布</title>
+    <meta http-equiv="content-type" content="text/html;charset=gbk"/>
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes"/>
+    <link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="css/jquery.mmenu.all.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mmenu.min.all.js"></script>
+    <script type="text/javascript" src="js/o-script.js"></script>
+</head>
+<body class="o-page">
+<div id="page">
+    <!-- Header -->
+    <div id="header">
+        <a href="#menu"></a>
+				<span id="Logo" class="svg">
+                     系统分析
+				</span>
+        <a class="backBtn" href="javascript:history.back();"></a>
+    </div>
+    <div class="subHeader"><i class="i-blog i-small"></i>系统分布</div>
+    <!-- Content -->
+    <div id="content">
+        <div id="main" style="height:700px;"></div>
+        <!-- ECharts单文件引入 -->
+        <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+        <script src="http://echarts.baidu.com/build/dist/chart/line.js"></script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                load(0);
+            })
+            $('#main').css('height', $(window).height() * 0.7);
+
+            // 路径配置
+            require.config({
+                paths: {
+                    echarts: 'http://echarts.baidu.com/build/dist'
+                }
+            });
+            var myChart;
+            function load(index) {
+
+                // 使用
+                require(
+                        [
+                            'echarts',
+                            'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+                        ],
+                        function (ec) {
+                            // 基于准备好的dom，初始化echarts图表
+                            myChart = ec.init(document.getElementById('main'));
+                            var option = {
+                                legend: {
+                                    orient : 'vertical',
+                                    x : 'left',
+                                    data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+                                },
+                                tooltip : {
+                                    trigger: 'item',
+                                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                                },
+                                calculable : true,
+                                series : [
+                                    {
+                                        name:'访问来源',
+                                        type:'pie',
+                                        radius : '55%',
+                                        center: ['50%', '60%'],
+                                        data:[
+                                            {value:335, name:'直接访问'},
+                                            {value:310, name:'邮件营销'},
+                                            {value:234, name:'联盟广告'},
+                                            {value:135, name:'视频广告'},
+                                            {value:1548, name:'搜索引擎'}
+                                        ]
+                                    }
+                                ]
+                            };
+
+                            // 为echarts对象加载数据
+                            myChart.setOption(option);
+                        }
+                );
+            }
+        </script>
+    </div>
+    <!-- Menu navigation -->
+    <nav id="menu">
+        <ul>
+            <li style="line-height: 30px;text-align: center">
+                欢迎，张三
+            </li>
+            <li>
+                <a href="index.html">
+                    <i class="i-home i-small"></i>终端信息
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="i-about i-small"></i>流量监控
+                </a>
+                <ul>
+                    <li><a href="online-user-report.html">在线用户数报表</a></li>
+                    <li><a href="in-out-report.html">吞吐量报表</a></li>
+                    <li class="Selected"><a href="top10-user-report.html">Top10用户报表</a></li>
+                    <li><a href="top10-app-report.html">Top10应用报表</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="action-analysis.html">
+                    <i class="i-blog i-small"></i>行为分析
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="i-gallery i-small"></i>企业统计
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="i-shortcodes i-small"></i>系统分析
+                </a>
+                <ul>
+                    <li><a href="system-gprs-analysis.html">系统流量分布</a></li>
+                    <li><a href="distribution-system.html">系统分布</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
