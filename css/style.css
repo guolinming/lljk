@@ -78,7 +78,7 @@ pre
 .header,
 #footer
 {
-	background: #587eac;
+	background: #036bc4;
 	font-size: 16px;
 	font-weight: bold;
 	color: #fff;
@@ -142,6 +142,7 @@ pre
 #content,
 .content
 {
+    font-size: 14px;
 	padding: 10px;
 }
 
@@ -235,14 +236,14 @@ a.explorePane { text-decoration:none; }
 border-top:1px solid #ccd2d8; border-bottom: 1px solid #ccd2d8; color:#233241; }
 
 .o-page .mm-ismenu { background: #0E1419 !important; }
-.o-page .mm-list > li { background-color: #233241; color: #FFF; }
+.o-page .mm-list > li { background-color: #1e1e1e; color: #FFF;}
 .o-page .mm-menu.mm-vertical .mm-list .mm-panel { padding: 0px 0px 0px 40px !important; background-color: #0E1419 !important; }
 .o-page .mm-menu.mm-vertical .mm-list .mm-panel li { background-color: #0E1419; border-bottom: 1px solid #233241; border-left: 1px solid #233241; }
 .o-page .mm-menu > .mm-list { padding:0px; }
 .o-page .mm-menu .mm-list > li.mm-selected > a:not(.mm-subopen), 
-.o-page .mm-menu .mm-list > li.mm-selected > span { background: #587EA9; color: #0E1419; }
+.o-page .mm-menu .mm-list > li.mm-selected > span { background: rgba(255, 255, 255, 0.5); color: #0E1419; }
 .o-page .mm-menu .mm-list > li.mm-selected i.i-small { background-position-y: -260px; }
-.o-page .mm-menu.mm-hassearch > .mm-panel { padding-top: 50px; }
+.o-page .mm-menu.mm-hassearch > .mm-panel { padding-top: 80px; }
 .o-page .mm-menu .mm-search input { border: 0px; background: rgba(0, 0, 0, 0); color: rgba(255, 255, 255, 0.6); }
 .o-page .mm-menu li.mm-noresults { text-align: center; font-size: 15px; display: none; padding: 10px; }
 .o-page .mm-list > li > a, 

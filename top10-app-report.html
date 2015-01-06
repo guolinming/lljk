@@ -29,30 +29,34 @@
     <!-- Content -->
     <div id="content">
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        请选择时间段：
-        <select id="period" style="width: 30%">
-            <option value="0">1天</option>
-            <option value="1">7天</option>
-            <option value="2">30天</option>
-            <option value="3">90天</option>
+        <select id="classType" style="width: 30%">
+
         </select>
 
-        <div id="main" style="height:700px;overflow:scroll"></div>
+        <div id="main" style="height:700px;"></div>
         <!-- ECharts单文件引入 -->
         <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
         <script src="http://echarts.baidu.com/build/dist/chart/line.js"></script>
-        <script src="./plugin/data/zxyhs.js"></script>
+        <script src="./plugin/data/data.js"></script>
+        <script src="./plugin/data/data2.js"></script>
         <script src="./plugin/util/dateformat.js"></script>
         <script type="text/javascript">
-            $('#period').change(function () {
-                var period = $('#period').val();
-                load(zxyhs[period].data);
+            $('#classType').change(function(){
+                var a = $('#classType').val();
+                load(a);
                 myChart.refresh();
             });
             $(document).ready(function () {
-                load(zxyhs[0].data);
+                load(0);
             })
             $('#main').css('height', $(window).height() * 0.7);
+
+            //调用方法
+            var classtypeHtml = ""
+            $.each(dataObj.data, function (idx, item) {
+                classtypeHtml += "<option value='" + idx + "' >" + item[0] + "</option>"
+            });
+            $('#classType').html(classtypeHtml);
 
             // 路径配置
             require.config({
@@ -61,27 +65,34 @@
                 }
             });
             var myChart;
-            function load(data) {
+            function load(index) {
+                var max = dataObj.max/(1024*1024*1024);
+                var items_name = new Array();
                 var x_value = new Array();
                 var series = new Array();
-                var y_value = new Array();
-                $.each(data, function (idx, item) {
-                    var time = new Date(item[0]);
-                    var dt = time.format("hh:mm");
-                    x_value.push(dt);
-                    var yv = item[1];
-                    y_value.push(yv);
+                $.each(dataObj.data, function (idx, item) {
+                    if (index == idx) {
+                        items_name.push(item[0]);
+                        var serie;
+                        var y_value = new Array();
+                        $.each(item[1], function (idx2, item2) {
+                            if (idx == index) {
+                                var time = new Date(item2[0]);
+                                var dt = time.format("hh:mm");
+                                x_value.push(dt);
+                            }
+                            var yv = item2[1]/(1024*1024*1024);
+                            y_value.push(yv);
+                        });
+                        serie = {
+                            name: item[0],
+                            type: 'line',
+                            smooth: true,
+                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                            data: y_value};
+                        series.push(serie);
+                    }
                 });
-                var serie = {
-                    name: "用户数",
-                    type: 'line',
-//                    smooth: true,
-                    itemStyle: {normal: {
-                        lineStyle:{color:'#99dddd'},
-//                        nodeStyle:{color:'#99dddd'},
-                        areaStyle: {type: 'default',color:'#99dddd'}}},
-                    data: y_value};
-                series.push(serie);
                 // 使用
                 require(
                         [
@@ -93,6 +104,7 @@
                             myChart = ec.init(document.getElementById('main'));
                             var option = {
                                 title: {
+                                    text: 'TOP10协议',
                                     subtext: '',
                                     x: 'center',
                                     textStyle: {fontSize: 20, fontStyle: 'italic'}
@@ -100,28 +112,25 @@
                                 tooltip: {
                                     trigger: 'axis'
                                 },
-                                grid: {
-                                    borderWidth:0,
-                                    x: 20,
-                                    x2: 5
+                                grid:{
+                                    x:20,
+                                    x2:5
                                 },
                                 xAxis: [
                                     {
                                         type: 'category',
-                                        splitLine: {show:false},
-//                                        boundaryGap: false,
+                                        boundaryGap: false,
                                         axisLine: {onZero: false},
                                         data: x_value
                                     }
                                 ],
                                 yAxis: [
                                     {
-//                                        itemStyle: {shadowColor: #273738},
-                                        axisLine: {show: false},
                                         axisLabel: {rotate: 70},
-                                        name: '人数',
+                                        name: '流量',
                                         nameTextStyle: {fontSize: 12},
-                                        type: 'value'
+                                        type: 'value',
+                                        max: max
                                     }
                                 ],
                                 series: series
@@ -150,9 +159,9 @@
                     <i class="i-about i-small"></i>流量监控
                 </a>
                 <ul>
-                    <li class="Selected"><a href="online-user-report.html">在线用户数报表</a></li>
+                    <li><a href="online-user-report.html">在线用户数报表</a></li>
                     <li><a href="in-out-report.html">吞吐量报表</a></li>
-                    <li><a href="top10-app-report.html">Top10用户报表</a></li>
+                    <li class="Selected"><a href="top10-app-report.html">Top10用户报表</a></li>
                     <li><a href="top10-app-report.html">Top10应用报表</a></li>
                 </ul>
             </li>

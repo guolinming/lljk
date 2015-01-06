@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>在线用户数报表</title>
+    <title>Top10用户报表</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
     <meta name="author" content="www.frebsite.nl"/>
     <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes"/>
@@ -17,175 +17,271 @@
 </head>
 <body class="o-page">
 <div id="page">
-    <!-- Header -->
-    <div id="header">
-        <a href="#menu"></a>
+<!-- Header -->
+<div id="header">
+    <a href="#menu"></a>
 				<span id="Logo" class="svg">
                      流量监控
 				</span>
-        <a class="backBtn" href="javascript:history.back();"></a>
-    </div>
-    <div class="subHeader"><i class="i-blog i-small"></i>在线用户数报表</div>
-    <!-- Content -->
-    <div id="content">
-        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <select id="classType" style="width: 30%">
+    <a class="backBtn" href="javascript:history.back();"></a>
+</div>
+<div class="subHeader"><i class="i-blog i-small"></i>Top10用户报表</div>
+<!-- Content -->
+<div id="content">
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="condition1">
+        请选择用户
+        <select id="user" style="width: 30%">
 
         </select>
+        <input id="detail" type="button" value="详情" style="float:right">
 
-        <div id="main" style="height:700px;"></div>
-        <!-- ECharts单文件引入 -->
-        <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
-        <script src="http://echarts.baidu.com/build/dist/chart/line.js"></script>
-        <script src="./plugin/data/data.js"></script>
-        <script src="./plugin/data/data2.js"></script>
-        <script src="./plugin/util/dateformat.js"></script>
-        <script type="text/javascript">
-            $('#classType').change(function(){
-                var a = $('#classType').val();
-                load(a);
-                myChart.refresh();
+    </div>
+
+
+    <div id="condition2" style="display: none">
+        请选择协议
+        <select id="xy" style="width: 30%">
+
+        </select>
+    </div>
+    请选择时间段：
+    <select id="period" style="width: 30%">
+        <option value="0">1天</option>
+        <option value="1">7天</option>
+        <option value="2">30天</option>
+        <option value="3">90天</option>
+    </select>
+
+    <div id="main" style="height:700px;"></div>
+    <!-- ECharts单文件引入 -->
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script src="http://echarts.baidu.com/build/dist/chart/line.js"></script>
+    <script src="./plugin/data/top10user.js"></script>
+    <script src="./plugin/data/top10userxy.js"></script>
+    <script src="./plugin/util/dateformat.js"></script>
+    <script type="text/javascript">
+        var title = 'TOP10用户';
+        var subtext = "";
+        var queryflag = "user";
+        var user_i = 0;
+        var period_i = 0;
+        var xy_i = 0;
+        $('#detail').click(function () {
+            $('#condition1').hide();
+            $('#condition2').show();
+            queryflag = "xy";
+            var xyHtml = ""
+            $.each(top10userxy[period_i].data, function (idx, item) {
+                xyHtml += "<option value='" + idx + "' >" + item[0] + "</option>"
             });
-            $(document).ready(function () {
-                load(0);
-            })
-            $('#main').css('height', $(window).height() * 0.7);
-
+            $('#xy').html(xyHtml);
+            var period = $('#period').val();
+            period_i = period;
+            load(top10userxy[period_i].data, user_i);
+            myChart.refresh();
+        });
+        $('#period').change(function () {
+            var period = $('#period').val();
+            period_i = period;
+            if (queryflag == "user") {
+                var userHtml = ""
+                $.each(top10user[period_i].data, function (idx, item) {
+                    userHtml += "<option value='" + idx + "' >" + item[0] + "</option>"
+                });
+                $('#user').html(userHtml);
+                load(top10user[period_i].data, user_i);
+            } else {
+                var xyHtml = ""
+                $.each(top10userxy[period_i].data, function (idx, item) {
+                    xyHtml += "<option value='" + idx + "' >" + item[0] + "</option>"
+                });
+                $('#xy').html(xyHtml);
+                load(top10userxy[period_i].data, user_i);
+            }
+            myChart.refresh();
+        });
+        $('#user').change(function () {
+            var a = $('#user').val();
+            user_i = a;
+            load(top10user[period_i].data, user_i);
+            myChart.refresh();
+        });
+        $('#xy').change(function () {
+            var a = $('#xy').val();
+            xy_i = a;
+            load(top10userxy[period_i].data, xy_i);
+            myChart.refresh();
+        });
+        $(document).ready(function () {
             //调用方法
-            var classtypeHtml = ""
-            $.each(dataObj.data, function (idx, item) {
-                classtypeHtml += "<option value='" + idx + "' >" + item[0] + "</option>"
+            var userHtml = ""
+            $.each(top10user[0].data, function (idx, item) {
+                userHtml += "<option value='" + idx + "' >" + item[0] + "</option>"
             });
-            $('#classType').html(classtypeHtml);
+            $('#user').html(userHtml);
+            load(top10user[period_i].data, 0);
+        })
+        $('#main').css('height', $(window).height() * 0.7);
 
-            // 路径配置
-            require.config({
-                paths: {
-                    echarts: 'http://echarts.baidu.com/build/dist'
+
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+        var myChart;
+        function load(data, index) {
+            var items_name = new Array();
+            var x_value = new Array();
+            var series = new Array();
+            $.each(data, function (idx, item) {
+                if (index == idx) {
+                    items_name.push(item[0]);
+                    var serie;
+                    var y_value = new Array();
+                    $.each(item[1], function (idx2, item2) {
+                        if (idx == index) {
+                            var time = new Date(item2[0]);
+                            var dt = time.format("MM.dd");
+                            x_value.push(dt);
+                        }
+                        var yv = item2[1] / (1024 * 1024 * 1024);
+                        y_value.push(yv);
+                    });
+                    title = item[0];
+                    serie = {
+                        name: '流量',
+                        type: 'line',
+                        smooth: true,
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        data: y_value};
+                    series.push(serie);
                 }
             });
-            var myChart;
-            function load(index) {
-                var max = dataObj.max/(1024*1024*1024);
-                var items_name = new Array();
-                var x_value = new Array();
-                var series = new Array();
-                $.each(dataObj.data, function (idx, item) {
-                    if (index == idx) {
-                        items_name.push(item[0]);
-                        var serie;
-                        var y_value = new Array();
-                        $.each(item[1], function (idx2, item2) {
-                            if (idx == index) {
-                                var time = new Date(item2[0]);
-                                var dt = time.format("hh:mm");
-                                x_value.push(dt);
-                            }
-                            var yv = item2[1]/(1024*1024*1024);
-                            y_value.push(yv);
-                        });
-                        serie = {
-                            name: item[0],
-                            type: 'line',
-                            smooth: true,
-                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
-                            data: y_value};
-                        series.push(serie);
-                    }
-                });
-                // 使用
-                require(
-                        [
-                            'echarts',
-                            'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
-                        ],
-                        function (ec) {
-                            // 基于准备好的dom，初始化echarts图表
-                            myChart = ec.init(document.getElementById('main'));
-                            var option = {
-                                title: {
-                                    text: 'TOP10协议',
-                                    subtext: '',
-                                    x: 'center',
-                                    textStyle: {fontSize: 20, fontStyle: 'italic'}
-                                },
-                                tooltip: {
-                                    trigger: 'axis'
-                                },
-                                grid:{
-                                    x:20,
-                                    x2:5
-                                },
-                                xAxis: [
-                                    {
-                                        type: 'category',
-                                        boundaryGap: false,
-                                        axisLine: {onZero: false},
-                                        data: x_value
-                                    }
-                                ],
-                                yAxis: [
-                                    {
-                                        axisLabel: {rotate: 70},
-                                        name: '流量',
-                                        nameTextStyle: {fontSize: 12},
-                                        type: 'value',
-                                        max: max
-                                    }
-                                ],
-                                series: series
-                            };
+            // 使用
+            require(
+                    [
+                        'echarts',
+                        'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
+                    ],
+                    function (ec) {
+                        // 基于准备好的dom，初始化echarts图表
+                        myChart = ec.init(document.getElementById('main'));
+                        var option = {
+                            title: {
+                                text: title,
+                                subtext: subtext,
+                                x: 'center',
+                                textStyle: {fontSize: 20, fontStyle: 'italic'}
+                            },
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            grid: {
+                                x: 20,
+                                x2: 5
+                            },
+                            xAxis: [
+                                {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    axisLine: {onZero: false},
+                                    data: x_value
+                                }
+                            ],
+                            yAxis: [
+                                {
+                                    axisLabel: {rotate: 70},
+                                    name: '流量',
+                                    nameTextStyle: {fontSize: 12},
+                                    type: 'value'
+                                }
+                            ],
+                            series: series
+                        };
 
-                            // 为echarts对象加载数据
-                            myChart.setOption(option);
-                        }
-                );
-            }
-        </script>
-    </div>
-    <!-- Menu navigation -->
-    <nav id="menu">
-        <ul>
-            <li style="line-height: 30px;text-align: center">
-                欢迎，张三
-            </li>
-            <li>
-                <a href="index.html">
-                    <i class="i-home i-small"></i>终端信息
-                </a>
-            </li>
-            <li>
-                <a>
-                    <i class="i-about i-small"></i>流量监控
-                </a>
-                <ul>
-                    <li><a href="online-user-report.html">在线用户数报表</a></li>
-                    <li><a href="in-out-report.html">吞吐量报表</a></li>
-                    <li class="Selected"><a href="top10-user-report.html">Top10用户报表</a></li>
-                    <li><a href="top10-app-report.html">Top10应用报表</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="action-analysis.html">
-                    <i class="i-blog i-small"></i>行为分析
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="i-gallery i-small"></i>企业统计
-                </a>
-            </li>
-            <li>
-                <a>
-                    <i class="i-shortcodes i-small"></i>系统分析
-                </a>
-                <ul>
-                    <li><a href="system-gprs-analysis.html">系统流量分布</a></li>
-                    <li><a href="distribution-system.html">系统分布</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
+                        // 为echarts对象加载数据
+                        myChart.setOption(option);
+                    }
+            );
+        }
+    </script>
+</div>
+<!--<div id="detail-user" style="width: 100%">
+    <table>
+        <thead>
+        <tr>
+            <th>用户</th>
+            <th>流量</th>
+            <th>包数</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+<div id="detail-xy" style="width: 100%;display: none">
+    <table>
+        <thead>
+        <tr>
+            <th>协议</th>
+            <th>包数</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+    </table>
+</div>-->
+<!-- Menu navigation -->
+<nav id="menu">
+    <ul>
+        <li style="line-height: 30px;text-align: center">
+            欢迎，张三
+        </li>
+        <li>
+            <a href="index.html">
+                <i class="i-home i-small"></i>终端信息
+            </a>
+        </li>
+        <li>
+            <a>
+                <i class="i-about i-small"></i>流量监控
+            </a>
+            <ul>
+                <li><a href="online-user-report.html">在线用户数报表</a></li>
+                <li><a href="in-out-report.html">吞吐量报表</a></li>
+                <li class="Selected"><a href="top10-user-report.html">Top10用户报表</a></li>
+                <li><a href="top10-app-report.html">Top10应用报表</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="action-analysis.html">
+                <i class="i-blog i-small"></i>行为分析
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="i-gallery i-small"></i>企业统计
+            </a>
+        </li>
+        <li>
+            <a>
+                <i class="i-shortcodes i-small"></i>系统分析
+            </a>
+            <ul>
+                <li><a href="system-gprs-analysis.html">系统流量分布</a></li>
+                <li><a href="distribution-system.html">系统分布</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
 </div>
 </body>
 </html>

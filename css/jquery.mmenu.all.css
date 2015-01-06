@@ -516,7 +516,7 @@ html.mm-opened.mm-dragging #mm-blocker {
 .mm-search {
   background: inherit;
   width: 100%;
-  height: 50px;
+  height: 80px;
   padding: 10px;
   position: relative;
   top: 0;

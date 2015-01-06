@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>在线用户数报表</title>
+    <title>吞吐量报表</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
     <meta name="author" content="www.frebsite.nl"/>
     <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes"/>
@@ -25,7 +25,7 @@
 				</span>
         <a class="backBtn" href="javascript:history.back();"></a>
     </div>
-    <div class="subHeader"><i class="i-blog i-small"></i>在线用户数报表</div>
+    <div class="subHeader"><i class="i-blog i-small"></i>吞吐量报表</div>
     <!-- Content -->
     <div id="content">
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
@@ -41,16 +41,16 @@
         <!-- ECharts单文件引入 -->
         <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
         <script src="http://echarts.baidu.com/build/dist/chart/line.js"></script>
-        <script src="./plugin/data/zxyhs.js"></script>
+        <script src="./plugin/data/ttl.js"></script>
         <script src="./plugin/util/dateformat.js"></script>
         <script type="text/javascript">
             $('#period').change(function () {
                 var period = $('#period').val();
-                load(zxyhs[period].data);
+                load(ttl[period].data);
                 myChart.refresh();
             });
             $(document).ready(function () {
-                load(zxyhs[0].data);
+                load(ttl[0].data);
             })
             $('#main').css('height', $(window).height() * 0.7);
 
@@ -64,24 +64,26 @@
             function load(data) {
                 var x_value = new Array();
                 var series = new Array();
-                var y_value = new Array();
+                var inocts = new Array();
+                var outocts = new Array();
                 $.each(data, function (idx, item) {
-                    var time = new Date(item[0]);
-                    var dt = time.format("hh:mm");
+                    var time = new Date(item.timeStamp);
+                    var dt = time.format("MM.dd");
                     x_value.push(dt);
-                    var yv = item[1];
-                    y_value.push(yv);
+                    inocts.push((item.inocts / (1024 * 1024 * 1024)).toFixed(2));
+                    outocts.push((item.outocts / (1024 * 1024 * 1024)).toFixed(2));
                 });
                 var serie = {
-                    name: "用户数",
+                    name: "上行流量",
                     type: 'line',
-//                    smooth: true,
-                    itemStyle: {normal: {
-                        lineStyle:{color:'#99dddd'},
-//                        nodeStyle:{color:'#99dddd'},
-                        areaStyle: {type: 'default',color:'#99dddd'}}},
-                    data: y_value};
+                    data: outocts};
+                var serie2 = {
+                    name: "下行流量",
+                    type: 'line',
+                    data: inocts};
+
                 series.push(serie);
+                series.push(serie2);
                 // 使用
                 require(
                         [
@@ -100,15 +102,19 @@
                                 tooltip: {
                                     trigger: 'axis'
                                 },
+                                legend: {
+                                    data: ['上行流量', '下行流量'],
+                                    y: 'bottom'
+                                },
                                 grid: {
-                                    borderWidth:0,
+                                    borderWidth: 0,
                                     x: 20,
                                     x2: 5
                                 },
                                 xAxis: [
                                     {
                                         type: 'category',
-                                        splitLine: {show:false},
+                                        splitLine: {show: false},
 //                                        boundaryGap: false,
                                         axisLine: {onZero: false},
                                         data: x_value
@@ -150,9 +156,9 @@
                     <i class="i-about i-small"></i>流量监控
                 </a>
                 <ul>
-                    <li class="Selected"><a href="online-user-report.html">在线用户数报表</a></li>
-                    <li><a href="in-out-report.html">吞吐量报表</a></li>
-                    <li><a href="top10-app-report.html">Top10用户报表</a></li>
+                    <li><a href="online-user-report.html">在线用户数报表</a></li>
+                    <li class="Selected"><a href="in-out-report.html">吞吐量报表</a></li>
+                    <li><a href="top10-user-report.html">Top10用户报表</a></li>
                     <li><a href="top10-app-report.html">Top10应用报表</a></li>
                 </ul>
             </li>
