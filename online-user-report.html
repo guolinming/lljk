@@ -67,7 +67,7 @@
                 var y_value = new Array();
                 $.each(data, function (idx, item) {
                     var time = new Date(item[0]);
-                    var dt = time.format("hh:mm");
+                    var dt = time.format("MM-dd hh");
                     x_value.push(dt);
                     var yv = item[1];
                     y_value.push(yv);
@@ -152,8 +152,8 @@
                 <ul>
                     <li class="Selected"><a href="online-user-report.html">在线用户数报表</a></li>
                     <li><a href="in-out-report.html">吞吐量报表</a></li>
-                    <li><a href="top10-app-report.html">Top10用户报表</a></li>
-                    <li><a href="top10-app-report.html">Top10应用报表</a></li>
+                    <li><a href="top10-user-report.html">Top10用户报表</a></li>
+                    <li><a href="top10-xy-report.html">Top10协议报表</a></li>
                 </ul>
             </li>
             <li>

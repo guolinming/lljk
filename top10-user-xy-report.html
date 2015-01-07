@@ -28,13 +28,11 @@
 <div class="subHeader"><i class="i-blog i-small"></i>Top10用户报表</div>
 <!-- Content -->
 <div id="content">
-    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
     <div id="condition">
-        请选择用户:
-        <select id="user" style="width: 30%">
+        请选择协议:
+        <select id="xy" style="width: 30%">
 
         </select>
-        <input id="detail" type="button" value="详情" style="float:right">
         <br>
         请选择时间段:
         <select id="period" style="width: 30%">
@@ -45,49 +43,57 @@
         </select>
     </div>
 
+
     <div id="main" style="height:700px;"></div>
     <!-- ECharts单文件引入 -->
     <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
     <script src="http://echarts.baidu.com/build/dist/chart/line.js"></script>
-    <script src="./plugin/data/top10user.js"></script>
+    <script src="./plugin/data/top10userxy.js"></script>
     <script src="./plugin/util/dateformat.js"></script>
     <script type="text/javascript">
+        var request =
+        {
+            QueryString: function (val) {
+                var uri = window.location.search;
+                var re = new RegExp("" + val + "=([^&?]*)", "ig");
+                return ((uri.match(re)) ? (uri.match(re)[0].substr(val.length + 1)) : null);
+            }
+        }
+        var user = request.QueryString("user");
+        var ip = request.QueryString("ip");
+
         var title = 'TOP10用户';
-        var subtext = "";
-        var user_i = 0;
+        var subtext = ip;
         var period_i = 0;
-        $('#detail').click(function () {
-            var ip = $('#user option[value="' + $('#user').val() + '"]').html();
-            window.location.href = "top10-user-xy-report.html?user=" + $('#user').val()
-                    + "&ip=" + ip;
-        });
+        var xy_i = 0;
+
         $('#period').change(function () {
             var period = $('#period').val();
             period_i = period;
-            var userHtml = ""
-            $.each(top10user[period_i].data, function (idx, item) {
-                userHtml += "<option value='" + idx + "' >" + item[0] + "</option>"
+            var xyHtml = ""
+            $.each(top10userxy[period_i].data, function (idx, item) {
+                xyHtml += "<option value='" + idx + "' >" + item[0] + "</option>"
             });
-            $('#user').html(userHtml);
-            load(top10user[period_i].data, user_i);
+            $('#xy').html(xyHtml);
+            load(top10userxy[period_i].data, user_i);
             myChart.refresh();
         });
-        $('#user').change(function () {
-            var a = $('#user').val();
-            user_i = a;
-            load(top10user[period_i].data, user_i);
+        $('#xy').change(function () {
+            var a = $('#xy').val();
+            xy_i = a;
+            load(top10userxy[period_i].data, xy_i);
             myChart.refresh();
         });
         $(document).ready(function () {
             //调用方法
-            var userHtml = ""
-            $.each(top10user[0].data, function (idx, item) {
-                userHtml += "<option value='" + idx + "' >" + item[0] + "</option>"
+            var xyHtml = ""
+            $.each(top10userxy[period_i].data, function (idx, item) {
+                xyHtml += "<option value='" + idx + "' >" + item[0] + "</option>"
             });
-            $('#user').html(userHtml);
-            load(top10user[period_i].data, user_i);
+            $('#xy').html(xyHtml);
+            load(top10userxy[period_i].data, xy_i);
             var html = "";
-            $.each(top10user[period_i].data, function (idx, item) {
+            $.each(top10userxy[period_i].data, function (idx, item) {
                 var ll=0;
                 var sjb=0;
                 $.each(item[1], function (idx, item2) {
@@ -101,7 +107,7 @@
                 html +='</tr>';
             });
 
-            $('#detail-user tbody').html(html);
+            $('#detail-xy tbody').html(html);
         })
         $('#main').css('height', $(window).height() * 0.7);
 
@@ -125,7 +131,7 @@
                     $.each(item[1], function (idx2, item2) {
                         if (idx == index) {
                             var time = new Date(item2[0]);
-                            var dt = time.format("MM.dd hh");
+                            var dt = time.format("MM.dd");
                             x_value.push(dt);
                         }
                         var yv = item2[1] / (1024 * 1024 * 1024);
@@ -190,11 +196,12 @@
         }
     </script>
 </div>
-<div id="detail-user" style="width: 100%">
-    <table style="width: 100%">
+
+<div id="detail-xy" style="width: 100%;">
+    <table style="width: 100%;">
         <thead>
         <tr>
-            <th>用户</th>
+            <th>协议</th>
             <th>流量</th>
             <th>包数</th>
         </tr>
@@ -205,7 +212,6 @@
         </tbody>
     </table>
 </div>
-
 <!-- Menu navigation -->
 <nav id="menu">
     <ul>
@@ -225,7 +231,7 @@
                 <li><a href="online-user-report.html">在线用户数报表</a></li>
                 <li><a href="in-out-report.html">吞吐量报表</a></li>
                 <li class="Selected"><a href="top10-user-report.html">Top10用户报表</a></li>
-                <li><a href="top10-xy-report.html">Top10应用报表</a></li>
+                <li><a href="top10-xy-report.html">Top10协议报表</a></li>
             </ul>
         </li>
         <li>
