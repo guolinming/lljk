@@ -1,10 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>企业分析</title>
+    <title>行为分析</title>
+
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes"/>
+    <link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <!--<link type="text/css" rel="stylesheet" href="css/flexslider.css"/>-->
+    <link type="text/css" rel="stylesheet" href="css/jquery.mmenu.all.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mmenu.min.all.js"></script>
+    <!--<script type="text/javascript" src="js/jquery.flexslider.js"></script>-->
+    <script type="text/javascript" src="js/o-script.js"></script>
+    <style type="text/css">
+        td {
+            text-align: center;
+        }
+    </style>
 </head>
-<body>
+<body class="o-page">
+<div id="page">
+    <!-- Header -->
+    <div id="header">
+        <a href="#menu"></a>
+				<span id="Logo" class="svg">
+                     企业统计
+				</span>
+        <a class="backBtn" href="javascript:history.back();"></a>
+    </div>
 
+    <!-- Content -->
+    <div id="content">
+        <table style="width: 100%;">
+            <thead>
+            <tr>
+                <th>应用组</th>
+                <th>总流量</th>
+                <th>流量比</th>
+                <th>总时长</th>
+                <th>平均时长</th>
+            </tr>
+            </thead>
+            <tbody>
 
+            </tbody>
+        </table>
+
+    </div>
+    <!-- Menu navigation -->
+    <nav id="menu">
+        <ul>
+            <li style="line-height: 30px;text-align: center">
+                欢迎，张三
+            </li>
+            <li>
+                <a href="index.html">
+                    <i class="i-home i-small"></i>终端信息
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="i-about i-small"></i>流量监控
+                </a>
+                <ul>
+                    <li><a href="online-user-report.html">在线用户数报表</a></li>
+                    <li><a href="in-out-report.html">吞吐量报表</a></li>
+                    <li><a href="top10-user-report.html">Top10用户报表</a></li>
+                    <li><a href="top10-xy-report.html">Top10协议报表</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="action-analysis.html">
+                    <i class="i-blog i-small"></i>行为分析
+                </a>
+            </li>
+            <li class="Selected">
+                <a href="business-statistics.html">
+                    <i class="i-gallery i-small"></i>企业统计
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="i-shortcodes i-small"></i>系统分析
+                </a>
+                <ul>
+                    <li><a href="system-gprs-analysis.html">系统流量分布</a></li>
+                    <li><a href="distribution-system.html">系统分布</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>
 </body>
 </html>
