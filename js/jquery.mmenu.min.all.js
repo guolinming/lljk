@@ -11,6 +11,9 @@
  * http://en.wikipedia.org/wiki/MIT_License
  * http://en.wikipedia.org/wiki/GNU_General_Public_License
  */
+
+var navTitleHtml ='<span style="font-size: 28px;color: #ffffff;"><strong>流量卫士</strong></span><span style="float: right"><a href="login.html" style="color: #ffffff;text-decoration: none;font-size: 14px">注销</a></span>';
+
 !function (e) {
     function t(t, n, o) {
         if ("object" != typeof t && (t = {}), o) {
@@ -494,7 +497,7 @@
     var n = "mmenu", t = "searchfield";
     e[n].prototype["_addon_" + t] = function () {
         var a = this, r = this.opts[t], o = e[n]._c, l = e[n]._d, d = e[n]._e;
-        if (o.add("search hassearch noresults nosubresults counter"), d.add("search reset change"), "boolean" == typeof r && (r = {add: r, search: r}), "object" != typeof r && (r = {}), r = e.extend(!0, {}, e[n].defaults[t], r), r.add && (e('<div class="' + o.search + '" />').prependTo(this.$menu).append('<span style="font-size: 28px;color: #ffffff;"><strong>流量卫士</strong></span><span style="float: right"><a href="login.html" style="color: #ffffff;text-decoration: none;font-size: 14px">注销</a></span><input placeholder="' + r.placeholder + '" type="text" autocomplete="off" />'), r.noResults && e("ul, ol", this.$menu).first().append('<li class="' + o.noresults + '">' + r.noResults + "</li>")), e("div." + o.search, this.$menu).length && this.$menu.addClass(o.hassearch), r.search) {
+        if (o.add("search hassearch noresults nosubresults counter"), d.add("search reset change"), "boolean" == typeof r && (r = {add: r, search: r}), "object" != typeof r && (r = {}), r = e.extend(!0, {}, e[n].defaults[t], r), r.add && (e('<div class="' + o.search + '" />').prependTo(this.$menu).append(navTitleHtml+'<input placeholder="' + r.placeholder + '" type="text" autocomplete="off" style="border-radius: 10px;background: #5f5f5f;color:#000000;margin-top:10px"/>'), r.noResults && e("ul, ol", this.$menu).first().append('<li class="' + o.noresults + '">' + r.noResults + "</li>")), e("div." + o.search, this.$menu).length && this.$menu.addClass(o.hassearch), r.search) {
             var i = e("div." + o.search, this.$menu).find("input");
             if (i.length) {
                 var u = e("." + o.panel, this.$menu), h = e("." + o.list + "> li." + o.label, this.$menu), c = e("." + o.list + "> li", this.$menu).not("." + o.subtitle).not("." + o.label).not("." + o.noresults), f = "> a";
@@ -520,5 +523,5 @@
                 })
             }
         }
-    }, e[n].defaults[t] = {add: !1, search: !1, showLinksOnly: !0, placeholder: "搜索", noResults: "No results found."}, e[n].addons = e[n].addons || [], e[n].addons.push(t)
+    }, e[n].defaults[t] = {add: !1, search: !1, showLinksOnly: !0, placeholder: "搜索功能", noResults: "No results found."}, e[n].addons = e[n].addons || [], e[n].addons.push(t)
 }(jQuery);
